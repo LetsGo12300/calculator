@@ -19,14 +19,16 @@ body{
     padding-bottom: 20px;
     padding-right: 25px;
     padding-left: 25px;
+    border-radius: 20px;
     background-color: #d2d9df;
     border: 6px solid #000000;
 }
 
 .container>.calc-btn{
+    border-radius: 10px;
     font-size: 25px;
     font-weight: bolder;
-    background-color:#fcbae0;;
+    background-color:#fcbae0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,9 +49,10 @@ body{
     grid-column: 1/5;
     grid-row: 1/2;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     text-shadow: #fcbae0;
     font-size: 25px;
     font-style: italic;
+    padding-left: 5px;
 }
