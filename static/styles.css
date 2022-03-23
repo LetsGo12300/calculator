@@ -9,6 +9,10 @@ body{
     background-image: url(pexels-eva-elijas-7598077.jpg);
 }
 
+button{
+    font-family: 'Orbitron', sans-serif;
+}
+
 .container{
     width: 50vh;
     display: grid;
@@ -24,7 +28,7 @@ body{
     border: 6px solid #000000;
 }
 
-.container>.calc-btn{
+.container>.calc-btn, .first-line{
     border-radius: 10px;
     font-size: 25px;
     font-weight: bolder;
@@ -38,6 +42,15 @@ body{
 .first-line{
     grid-column: 1/5;
     grid-row: 2/4;
+}
+
+#result{
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 15px;
+    font-size: 33px;
+    font-weight: lighter;
+    background-color:#fcd2ea;
 }
 
 .equals{

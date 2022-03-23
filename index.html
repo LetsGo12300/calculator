@@ -6,32 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="./static/styles.css">
-    <script src="./static/script.js"></script>
 </head>
 <body>
     <div class="container">
         <div id="calc-title">Kasio-FX-0322</div>
-        <div class="calc-btn first-line"></div>
-        <div class="calc-btn">c</div>
-        <div class="calc-btn">+/-</div>
-        <div class="calc-btn">⌫</div>
-        <div class="calc-btn">÷</div>
-        <div class="calc-btn">7</div>
-        <div class="calc-btn">8</div>
-        <div class="calc-btn">9</div>
-        <div class="calc-btn">×</div>
-        <div class="calc-btn">4</div>
-        <div class="calc-btn">5</div>
-        <div class="calc-btn">6</div>
-        <div class="calc-btn">-</div>
-        <div class="calc-btn">1</div>
-        <div class="calc-btn">2</div>
-        <div class="calc-btn">3</div>
-        <div class="calc-btn">+</div>
-        <div class="calc-btn">0</div>
-        <div class="calc-btn">.</div>
-        <div class="calc-btn equals">=</div>
+        <div class="first-line" id="result"></div>
+        <button class="calc-btn action-btn" id="clear">c</button>
+        <button class="calc-btn action-btn" id="sign-reversal">+/-</button>
+        <button class="calc-btn action-btn" id="del">⌫</button>
+        <button class="calc-btn operator" value="/" id="divide-btn">÷</button>
+        <button class="calc-btn operand" value="7" id="7-btn">7</button>
+        <button class="calc-btn operand" value="8" id="8-btn">8</button>
+        <button class="calc-btn operand" value="9" id="9-btn">9</button>
+        <button class="calc-btn operator" value="*" id="multiply-btn">×</button>
+        <button class="calc-btn operand" value="4" id="4-btn">4</button>
+        <button class="calc-btn operand" value="5" id="5-btn">5</button>
+        <button class="calc-btn operand" value="6" id="6-btn">6</button>
+        <button class="calc-btn operator" value="—"id="subtract-btn">-</button>
+        <button class="calc-btn operand" value="1" id="1-btn">1</button>
+        <button class="calc-btn operand" value="2" id="2-btn">2</button>
+        <button class="calc-btn operand" value="3" id="3-btn">3</button>
+        <button class="calc-btn operator" value="+" id="add-btn">+</button>
+        <button class="calc-btn operand" value="0" id="0-btn">0</button>
+        <button class="calc-btn operand" value="." id="dot-btn">.</button>
+        <button class="calc-btn equals" id="equals-btn">=</button>
     </div>
-
+    <script src="./static/script.js"></script>
 </body>
 </html>
