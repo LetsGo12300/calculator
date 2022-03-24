@@ -18,7 +18,7 @@ button{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px;
-    grid-auto-rows: minmax(50px, auto);
+    grid-auto-rows: minmax(60px, auto);
     padding-top: 5px;
     padding-bottom: 20px;
     padding-right: 25px;
@@ -28,7 +28,7 @@ button{
     border: 6px solid #000000;
 }
 
-.container>.calc-btn, .first-line{
+.container>.calc-btn{
     border-radius: 10px;
     font-size: 25px;
     font-weight: bolder;
@@ -42,15 +42,27 @@ button{
 .first-line{
     grid-column: 1/5;
     grid-row: 2/4;
+    border-radius: 10px;
+    background-color:#fcd2ea;
+    border: 4px solid #383b3d;    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 15px;
+}
+
+.first-line>div{
+    display: flex;
+    justify-content: flex-end;
 }
 
 #result{
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding: 15px;
-    font-size: 33px;
-    font-weight: lighter;
-    background-color:#fcd2ea;
+    font-size: 24px;
+    color: #383b3d;
+}
+
+#input{
+    font-size: 40px;
 }
 
 .equals{
