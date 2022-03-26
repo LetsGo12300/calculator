@@ -1,3 +1,129 @@
+let topResult = '';
+let bottomResult = '';
+let lastClickedID = null; 
+let lastClickedClass = null; 
+let operateFlag = false;
+let equalsFlag = false;
+let topDisplay = document.getElementById('result');
+let bottomDisplay = document.getElementById('input');
+
+let buttons = document.querySelectorAll(".calc-btn");
+
+buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        let btnClass = [...btn.classList];
+
+        if (btnClass.includes("action-btn")){
+
+            // If user clicks clear button
+            if (btn.id === 'clear') 
+                clearCalculator();
+            // If user clicks sign reversal button
+            else if (btn.id === 'sign-reversal') {
+                if (topResult.substring(0,1) === '-')
+                    topResult = topResult.slice(1);
+                else 
+                    topResult = '-' + topResult;
+                
+                bottomResult = topResult;
+            }
+            // If user clicks delete/backspace button
+            else if (btn.id === 'del') {
+                topResult = topResult.slice(0,-1);
+                bottomResult = bottomResult.slice(0,-1);
+            }
+        }
+        else if (btnClass.includes("operand")){
+            // If user enters second input after an operator
+            if (containsOperatorLast(topResult)){
+                bottomResult = '';
+            }
+
+            // If user enters 0 first
+            if (bottomResult === '0' && btn.id !== 'dot'){
+                bottomResult = btn.value;
+                topResult = topResult.slice(0,-1) + btn.value;
+            }
+            // If user enters multiple dots, don't do anything
+            else if (btn.id === 'dot' && (bottomResult.slice(-1) === '.' || countDots(bottomResult) > 0)){
+                // pass
+            }
+            // If user enters dot ". first, convert to "0."
+            else if (bottomResult === '' && btn.id === 'dot'){
+                bottomResult = `0${btn.value}`;
+                topResult += `0${btn.value}`;
+            }
+            else{
+                bottomResult += btn.value;
+                topResult += btn.value;
+            }
+        }
+        else if (btnClass.includes("operator")){
+            // If the user clicks an operator button multiple times
+            if (containsOperatorLast(topResult)){
+                topResult = topResult.slice(0,-1) + btn.value; // change the operator
+            }
+            // If the user does continuous calculation without pressing equals button
+            else if (containsOperatorMid(topResult)){
+                equalsFlag = true;
+                operateFlag = true;
+            }
+            // If user clicks operator button first, don't do anything
+            else if (bottomResult === ''){
+                // pass
+            }
+            else {
+                topResult += btn.value;
+            }
+            
+        }
+        else if (btnClass.includes("equals")){
+            if (topResult !== '' && !containsOperatorLast(topResult))
+                equalsFlag = true;
+        }
+
+        if (lastClickedID === 'equals-btn' && btn.id === 'equals-btn'){
+            //pass
+        }
+        else if (equalsFlag === true && containsOperatorMid(topResult)){
+            if (operateFlag === true){
+                topResult = operate(topResult);
+                topResult += btn.value;
+                topDisplay.textContent = topResult;
+                bottomResult = topResult.slice(0,-1);
+                bottomDisplay.textContent = topResult.slice(0,-1);
+            } 
+            else {
+                topResult = operate(topResult);
+                topDisplay.innerHTML += '=';
+                bottomResult = topResult;
+                bottomDisplay.textContent = topResult;
+            }
+        }
+        else {
+            topResult = topResult.toString();
+            topDisplay.textContent = topResult;
+            bottomDisplay.textContent = bottomResult;
+        }
+
+        lastClickedID = btn.id;
+        lastClickedClass = btn.class;
+        equalsFlag = false;
+        operateFlag = false;
+    });
+
+    let origBackgroundColor = btn.style.backgroundColor;
+
+    btn.addEventListener("mouseover", () => {
+        btn.style.backgroundColor = '#fde3f2';
+    });
+
+    btn.addEventListener("mouseout", () => {
+        btn.style.backgroundColor = origBackgroundColor;
+    });
+
+});
+
 function add(num1, num2){
     return (num1 + num2).toString();
 }
@@ -12,6 +138,7 @@ function multiply(num1, num2){
 
 function divide(num1, num2){
     //rounding off to 4 decimal places
+    if (num2 === 0) return "undefined";
     let ans = (num1/num2).toString();
     if (ans.length > 5)
         return (num1 / num2).toFixed(4);
@@ -56,92 +183,16 @@ function separateString(str){
 
 function containsOperatorMid(str) {
     let count = separateString(str).length;
-    const operators = /[\/+—*]/;
     return (count > 1);
 }
 
-let topResult = '';
-let bottomResult = '';
-let lastClicked = null; 
-let operateFlag = false;
-let equalsFlag = false;
-let topDisplay = document.getElementById('result');
-let bottomDisplay = document.getElementById('input');
+function clearCalculator(){
+    topResult = ''; 
+    bottomResult = '';
+    topDisplay.textContent = topResult;
+    bottomDisplay.textContent = bottomResult;
+}
 
-let buttons = document.querySelectorAll(".calc-btn");
-
-buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        let btnClass = [...btn.classList];
-
-        if (btnClass.includes("action-btn")){
-            if (btn.id === 'clear') {
-                topResult = ''; 
-                bottomResult = '';
-                topDisplay.textContent = topResult;
-                bottomDisplay.textContent = bottomResult;
-            }
-            else if (btn.id === 'sign-reversal') {
-                if (topResult.substring(0,1) === '-'){
-                    topResult = topResult.slice(1);
-                }
-                else topResult = '-' + topResult;
-            }
-            else if (btn.id === 'del') {
-                topResult = topResult.slice(0,-1);
-                bottomResult = bottomResult.slice(0,-1);
-            }
-        }
-        else if (btnClass.includes("operand")){
-            if (containsOperatorLast(topResult)){
-                bottomResult = '';
-            }
-            bottomResult += btn.value;
-            topResult += btn.value;
-        }
-        else if (btnClass.includes("operator")){
-            
-            if (containsOperatorLast(topResult)){
-                topResult = topResult.slice(0,-1) + btn.value;
-            }
-            else if (containsOperatorMid(topResult)){
-                equalsFlag = true;
-                operateFlag = true;
-            }
-            else {
-                topResult += btn.value;
-            }
-        }
-        else if (btnClass.includes("equals")){
-            if (topResult !== '')
-                equalsFlag = true;
-        }
-
-        if (lastClicked === 'equals-btn'){
-            //pass
-        }
-        else if (equalsFlag === true){
-            if (operateFlag === true){
-                topResult = operate(topResult);
-                topResult += btn.value;
-                topDisplay.textContent = topResult;
-                bottomDisplay.textContent = topResult.slice(0,-1);
-            } 
-            else {
-                topResult = operate(topResult);
-                topDisplay.innerHTML += '=';
-                bottomDisplay.textContent = topResult;
-            }
-            bottomResult = '';
-            equalsFlag = false;
-            operateFlag = false;
-        }
-        else {
-            topResult = topResult.toString();
-            topDisplay.textContent = topResult;
-            bottomDisplay.textContent = bottomResult;
-        }
-
-        lastClicked = btn.id;
-    });
-});
+function countDots(str){
+    return str.split('.').length-1;
+}
